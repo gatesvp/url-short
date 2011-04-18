@@ -37,7 +37,7 @@ db.open(function(err, db) {
         }
 
         if (global.inData.p == '' && global.inData.url == '') {
-            res.end("");
+            res.end("Data not collected - Lame");
         } else {
             db.collection('clickCount', function(err, collection) { 
                 if (err) {
