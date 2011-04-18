@@ -3,7 +3,7 @@ var default_port = process.env.PORT;
 var http = require('http');
 var sys = require('sys');
 
-var Db = require('node-mongodb-natvie').Db;
+var Db = require('node-mongodb-native').Db;
 //  Connection = require('./node-mongodb-native/lib/mongodb').Connection,
 //  Server = require('./node-mongodb-native/lib/mongodb').Server,
 //  BSON = require('./node-mongodb-native/lib/mongodb').BSONNative;
