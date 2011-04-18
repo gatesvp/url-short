@@ -16,48 +16,28 @@ db.open(function(err, db) {
     http.createServer(function (req, res) {
         res.writeHead(200, {'Content-Type': 'text/plain'});
 
-        global.inData = {'p':'', 'url':''};
+        global.inData = { };
 
         // get IP address and ts
         global.inData.ip = req.connection.remoteAddress;
         global.inData.ts = new Date().valueOf();
 
         // get the http query
-        var qs = {};
-        qs = require('url').parse(req.url, true);
-        if (qs.query !== null) {
-            for (var key in qs.query) {
-                if (key == 'p') {
-                    global.inData.p = qs.query[key];
-                }
-                if (key == 'url') {
-                    global.inData.url = qs.query[key];
-                }
+        var qs = require('url').parse(req.url, true);
+        global.inData.qs = qs;
+
+        db.collection('views', function(err, collection) { 
+            if (err) {
+                console.log('is error \n' + err);
             }
-        }
 
-        if (global.inData.p == '' && global.inData.url == '') {
-            res.end("Data not collected - Lame");
-        } else {
-            db.collection('clickCount', function(err, collection) { 
-                if (err) {
-                    console.log('is error \n' + err);
-                }
-
-                collection.insert(global.inData);
-                res.end("IP recorded");
-                //db.close();  // DO NOT CLOSE THE CONNECTION
-            }); 
-        }
+            collection.insert(global.inData);
+            res.end("IP recorded");
+            //db.close();  // DO NOT CLOSE THE CONNECTION
+        }); 
+    }
     }).listen(default_port); 
 });
-
-/*
-http.createServer( function(req, res) { 
-  res.writeHead(200, {'Content-Type' : 'text/plain' });
-  res.end('Hello World\n');
-}).listen(default_port);
-*/
 
 console.log('Server running on default port');
 
