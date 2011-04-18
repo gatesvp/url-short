@@ -49,7 +49,7 @@ db.open(function(err, db) {
                 //db.close();  // DO NOT CLOSE THE CONNECTION
             }); 
         }
-    }).listen(8080); 
+    }).listen(default_port); 
 });
 
 /*
