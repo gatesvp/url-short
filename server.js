@@ -25,7 +25,7 @@ db.open(function(err, db) {
         // get the http query
         var qs = {};
         qs = require('url').parse(req.url, true);
-        response.write(qs);
+        res.write(qs);
         if (qs.query !== null) {
             for (var key in qs.query) {
                 if (key == 'p') {
