@@ -4,9 +4,9 @@ var http = require('http');
 var sys = require('sys');
 
 var Db = require('/home/node/node-mongodb-native/lib/mongodb').Db,
-  Connection = require('./node-mongodb-native/lib/mongodb').Connection,
-  Server = require('./node-mongodb-native/lib/mongodb').Server,
-  BSON = require('./node-mongodb-native/lib/mongodb').BSONNative;
+  Connection = require('/home/node/node-mongodb-native/lib/mongodb').Connection,
+  Server = require('/home/node/node-mongodb-native/lib/mongodb').Server,
+  BSON = require('/home/node/node-mongodb-native/lib/mongodb').BSONNative;
 
 http.createServer( function(req, res) { 
   res.writeHead(200, {'Content-Type' : 'text/plain' });
