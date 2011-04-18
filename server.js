@@ -18,7 +18,7 @@ db.open(function(err, db) {
     // get IP address and ts and query object
     global.inData = { };
     global.inData.ip = req.connection.remoteAddress;
-    global.inData.ts = int.parse(new Date().valueOf();
+    global.inData.ts = parseInt(new Date().valueOf());
     global.inData.qs = require('url').parse(req.url, true);
 
     db.collection('views', function(err, collection) { 
