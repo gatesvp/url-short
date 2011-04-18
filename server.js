@@ -14,23 +14,19 @@ var db = new Db('visits', new Server(host, port, {}));
 
 db.open(function(err, db) { 
     http.createServer(function (req, res) {
-        res.writeHead(200, {'Content-Type': 'text/plain'});
-
+ 
+       // get IP address and ts and query object
         global.inData = { };
-
-        // get IP address and ts
         global.inData.ip = req.connection.remoteAddress;
         global.inData.ts = new Date().valueOf();
-
-        // get the http query
-        var qs = require('url').parse(req.url, true);
-        global.inData.qs = qs;
+        global.inData.qs = require('url').parse(req.url, true);
 
         db.collection('views', function(err, collection) { 
             if (err) {
                 console.log('is error \n' + err);
             }
 
+            res.writeHead(200, {'Content-Type': 'text/plain'});
             collection.insert(global.inData);
             res.end("IP recorded");
             //db.close();  // DO NOT CLOSE THE CONNECTION
