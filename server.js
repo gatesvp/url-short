@@ -35,7 +35,6 @@ db.open(function(err, db) {
             res.end("IP recorded");
             //db.close();  // DO NOT CLOSE THE CONNECTION
         }); 
-    }
     }).listen(default_port); 
 });
 
