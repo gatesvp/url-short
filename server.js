@@ -8,10 +8,56 @@ var Db = require('/home/node/node-mongodb-native/lib/mongodb').Db,
   Server = require('/home/node/node-mongodb-native/lib/mongodb').Server,
   BSON = require('/home/node/node-mongodb-native/lib/mongodb').BSONNative;
 
+var host = 'localhost';
+var port = 27017;
+var db = new Db('visits', new Server(host, port, {}), {native_parser:true});
+
+db.open(function(err, db) { 
+    http.createServer(function (req, res) {
+        res.writeHead(200, {'Content-Type': 'text/plain'});
+
+        global.inData = {'p':'', 'url':''};
+
+        // get IP address and ts
+        global.inData.ip = req.connection.remoteAddress;
+        global.inData.ts = new Date().valueOf();
+
+        // get the http query
+        var qs = {};
+        qs = require('url').parse(req.url, true);
+        if (qs.query !== null) {
+            for (var key in qs.query) {
+                if (key == 'p') {
+                    global.inData.p = qs.query[key];
+                }
+                if (key == 'url') {
+                    global.inData.url = qs.query[key];
+                }
+            }
+        }
+
+        if (global.inData.p == '' && global.inData.url == '') {
+            res.end("");
+        } else {
+            db.collection('clickCount', function(err, collection) { 
+                if (err) {
+                    console.log('is error \n' + err);
+                }
+
+                collection.insert(global.inData);
+                res.end("IP recorded");
+                //db.close();  // DO NOT CLOSE THE CONNECTION
+            }); 
+        }
+    }).listen(8080); 
+});
+
+/*
 http.createServer( function(req, res) { 
   res.writeHead(200, {'Content-Type' : 'text/plain' });
   res.end('Hello World\n');
 }).listen(default_port);
+*/
 
 console.log('Server running on default port');
 
