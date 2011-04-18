@@ -30,11 +30,13 @@ db.open(function(err, db) {
 
         collection.find({}, {limit:5, sort:[ ['ts','desc'] ] }).toArray( function(err, docs) {
           res.writeHead(200, {'Content-Type': 'text/plain'});
+          res.write("Last Five Requests\n");
           for(var i in docs){
+            res.write(i + "\n");
             res.write(JSON.stringify(docs[i]));
-            res.write("\n");
+            res.write("\n\n");
           }
-          res.end("Last five");
+          res.end("");
           //db.close();  // DO NOT CLOSE THE CONNECTION
         });
     }); 
