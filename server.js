@@ -31,7 +31,7 @@ db.open(function(err, db) {
         collection.find({}, {limit:5, sort:[ ['ts','desc'] ] }).toArray( function(err, docs) {
           res.writeHead(200, {'Content-Type': 'text/plain'});
           for(var i in docs){
-            res.write(JSON.stringify(docs[i]);
+            res.write(JSON.stringify(docs[i]));
             res.write("\n");
           }
           res.end("Last five");
