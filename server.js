@@ -18,7 +18,7 @@ db.open(function(err, db) {
     // get IP address and ts and query object
     global.inData = { };
     global.inData.ip = req.connection.remoteAddress;
-    global.inData.ts = new Date().valueOf();
+    global.inData.ts = int.parse(new Date().valueOf();
     global.inData.qs = require('url').parse(req.url, true);
 
     db.collection('views', function(err, collection) { 
@@ -33,7 +33,7 @@ db.open(function(err, db) {
           res.write("Last Five Requests\n");
           for(var i in docs){
             res.write(i + "\n");
-            res.write(JSON.stringify(docs[i]));
+            res.write(JSON.stringify(docs[i], null, '\t'));
             res.write("\n\n");
           }
           res.end("");
