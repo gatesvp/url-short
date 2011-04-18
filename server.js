@@ -10,7 +10,7 @@ var Db = require('/home/node/node-mongodb-native/lib/mongodb').Db,
 
 var host = 'localhost';
 var port = 27017;
-var db = new Db('visits', new Server(host, port, {}), {native_parser:true});
+var db = new Db('visits', new Server(host, port, {}));
 
 db.open(function(err, db) { 
     http.createServer(function (req, res) {
