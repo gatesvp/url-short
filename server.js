@@ -13,7 +13,9 @@ var port = 27017;
 var db = new Db('visits', new Server(host, port, {}));
 
 db.open(function(err, db) { 
-  app.createServer(function (req, res, next) {
+  var app = express.createServer();
+
+  app.get('/', function (req, res, next) {
 
     // get IP address and ts and query object
     global.inData = { };
