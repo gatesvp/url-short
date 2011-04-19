@@ -15,6 +15,35 @@ var db = new Db('visits', new Server(host, port, {}));
 db.open(function(err, db) { 
   var app = express.createServer();
 
+  app.use(app.router);
+  app.use(function(req,res,next){
+    next(new NotFound(req.url));
+  });
+  app.set('views', __dirname + '/views');
+
+  function NotFound(path) {
+    this.name = 'NotFound';
+    if(path){
+      Error.call(this, 'Cannot find ' + path);
+      this.path = path;
+    }
+    else{
+      Error.call(this, 'Not Found');
+    }
+    Error.captureStackTrace(this, arguments.callee);
+  }
+
+  NotFound.prototype.__proto__ = Error.prototype;
+
+  app.error(function(err, req, res, next) {
+    if (err instanceof NotFound) {
+      res.render('404.jade', { status : 404, error: err });
+    }
+    else {
+      next(err);
+    }
+  });
+
   app.get('/', function (req, res, next) {
 
     // get IP address and ts and query object
@@ -43,6 +72,8 @@ db.open(function(err, db) {
         });
     }); 
   });
+
+  app.get('/404', function(res, req) { throw new NotFound(req.url); } );
 
   app.listen(default_port); 
 });
