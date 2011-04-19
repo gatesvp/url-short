@@ -36,12 +36,12 @@ db.open(function(err, db) {
   app.set('views', __dirname + '/views');
 
   app.error(function(err, req, res, next) {
-    if (err instanceof NotFound) {
+//    if (err instanceof NotFound) {
       res.render('404.jade', { status : 404, error: err });
-    }
-    else {
-      next(err);
-    }
+//    }
+//    else {
+//      next(err);
+//    }
   });
 
   app.error(function(err, req, res){
