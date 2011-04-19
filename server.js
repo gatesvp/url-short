@@ -1,6 +1,5 @@
 var default_port = process.env.PORT;
 
-var http = require('http');
 var sys = require('sys');
 var Connect = require('connect');
 
