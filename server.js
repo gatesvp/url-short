@@ -13,7 +13,7 @@ var port = 27017;
 var db = new Db('visits', new Server(host, port, {}));
 
 db.open(function(err, db) { 
-  app.createServer(function (req, res, next) {
+  app.get('/', function (req, res, next) {
 
     // get IP address and ts and query object
     global.inData = { };
@@ -40,7 +40,9 @@ db.open(function(err, db) {
           //db.close();  // DO NOT CLOSE THE CONNECTION
         });
     }); 
-  }).listen(default_port); 
+  });
+
+  app.listen(default_port); 
 });
 
 console.log('Server running on default port');
