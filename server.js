@@ -44,6 +44,10 @@ db.open(function(err, db) {
     }
   });
 
+  app.error(function(err, req, res){
+    res.render('500.jade', { status: 500, error: err });
+  });
+
   app.get('/', function (req, res, next) {
 
     // get IP address and ts and query object
@@ -73,7 +77,8 @@ db.open(function(err, db) {
     }); 
   });
 
-  app.get('/404', function(res, req) { throw new NotFound(req.url); } );
+  app.get('/404', function(req, res) { throw new NotFound(req.url); } );
+  app.get('/500', function(req, res) { next(new Error('keyboard cat!'); } );
 
   app.listen(default_port); 
 });
