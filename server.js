@@ -78,7 +78,7 @@ db.open(function(err, db) {
   });
 
   app.get('/404', function(req, res) { throw new NotFound(req.url); } );
-  app.get('/500', function(req, res) { next(new Error('keyboard cat!'); } );
+  app.get('/500', function(req, res) { next(new Error('keyboard cat!')); } );
 
   app.listen(default_port); 
 });
