@@ -13,7 +13,7 @@ var host = 'localhost';
 var port = 27017;
 var db = new Db('visits', new Server(host, port, {}));
 
-Db.open(function(err, db) { 
+db.open(function(err, db) { 
   Connect.createServer(function (req, res, next) {
 
     // get IP address and ts and query object
