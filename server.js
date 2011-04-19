@@ -1,7 +1,7 @@
 var default_port = process.env.PORT;
 
 var sys = require('sys');
-var Connect = require('connect');
+var app = require('express');
 
 var Db = require('/home/node/node-mongodb-native/lib/mongodb').Db,
   Connection = require('/home/node/node-mongodb-native/lib/mongodb').Connection,
@@ -13,7 +13,7 @@ var port = 27017;
 var db = new Db('visits', new Server(host, port, {}));
 
 db.open(function(err, db) { 
-  Connect.createServer(function (req, res, next) {
+  express.createServer(function (req, res, next) {
 
     // get IP address and ts and query object
     global.inData = { };
