@@ -12,6 +12,20 @@ var host = 'localhost';
 var port = 27017;
 var db = new Db('visits', new Server(host, port, {}));
 
+function NotFound(path) {
+  this.name = 'NotFound';
+  if(path){
+    Error.call(this, 'Cannot find ' + path);
+    this.path = path;
+  }
+  else{
+    Error.call(this, 'Not Found');
+  }
+  Error.captureStackTrace(this, arguments.callee);
+}
+
+NotFound.prototype.__proto__ = Error.prototype;
+
 db.open(function(err, db) { 
   var app = express.createServer();
 
@@ -20,20 +34,6 @@ db.open(function(err, db) {
     next(new NotFound(req.url));
   });
   app.set('views', __dirname + '/views');
-
-  function NotFound(path) {
-    this.name = 'NotFound';
-    if(path){
-      Error.call(this, 'Cannot find ' + path);
-      this.path = path;
-    }
-    else{
-      Error.call(this, 'Not Found');
-    }
-    Error.captureStackTrace(this, arguments.callee);
-  }
-
-  NotFound.prototype.__proto__ = Error.prototype;
 
   app.error(function(err, req, res, next) {
     if (err instanceof NotFound) {
