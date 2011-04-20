@@ -31,6 +31,7 @@ db.open(function(err, db) {
   var app = express.createServer();
 
   app.use(app.router);
+  
   app.use(function(req,res,next){
     throw new NotFound(req.url);
   });
