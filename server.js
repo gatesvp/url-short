@@ -16,7 +16,7 @@ var db = new Db('visits', new Server(host, port, {}));
 db.open(function(err, db) { 
   var app = express.createServer();
 
-  app.set('view engine', 'jade');
+//  app.set('view engine', 'jade');
 
   app.use(app.router);  
   app.use(function(req,res,next){
