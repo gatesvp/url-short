@@ -13,40 +13,13 @@ var host = 'localhost';
 var port = 27017;
 var db = new Db('visits', new Server(host, port, {}));
 
-function NotFound(path) {
-  this.name = 'NotFound';
-  if(path){
-    Error.call(this, 'Cannot find ' + path);
-    this.path = path;
-  }
-  else{
-    Error.call(this, 'Not Found');
-  }
-  Error.captureStackTrace(this, arguments.callee);
-}
-
-NotFound.prototype.__proto__ = Error.prototype;
-
 db.open(function(err, db) { 
   var app = express.createServer();
 
   app.use(app.router);
   
   app.use(function(req,res,next){
-    throw new NotFound(req.url);
-  });
-
-  app.error(function(err, req, res, next) {
-    if(err instanceof NotFound) {
-      jade.renderFile('views/404.jade', function(err,html){ res.send(html); });
-    }
-    else {
-      next(err);
-    }
-  });
-
-  app.error(function(err, req, res, next) {
-    jade.renderFile('views/500.jade', function(err, html){ res.send(html); }); 
+    jade.renderFile('views/404.jade', function(err,html){ res.send(html); });
   });
 
   app.use('/', express.errorHandler({ dump: true, stack: true }));
