@@ -37,7 +37,7 @@ db.open(function(err, db) {
         collection.insert(global.inData);
 
         collection.find({}, {limit:5, sort:[ ['ts','desc'] ] }).toArray( function(err, docs) {
-          res.render('views/index.jade', { 'docs' : doc });
+          jade.render('views/index.jade', { 'docs' : doc });
           //jade.renderFile('views/index.jade', {'docs' : docs}, function(err,html){ res.send(html); });
 
         });
