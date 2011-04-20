@@ -13,41 +13,11 @@ var host = 'localhost';
 var port = 27017;
 var db = new Db('visits', new Server(host, port, {}));
 
-function NotFound(path) {
-  this.name = 'NotFound';
-  if(path){
-    Error.call(this, 'Cannot find ' + path);
-    this.path = path;
-  }
-  else{
-    Error.call(this, 'Not Found');
-  }
-  Error.captureStackTrace(this, arguments.callee);
-}
-
-NotFound.prototype.__proto__ = Error.prototype;
-
 db.open(function(err, db) { 
   var app = express.createServer();
 
   app.use(app.router);
-  app.use(function(req,res,next){
-    next(new NotFound(req.url));
-  });
   app.set('views', __dirname + '/views');
-
-  app.error(function(err, req, res, next) {
-//    if (err instanceof NotFound) {
-      res.render('404.jade', { status : 404, error: err });
-//    }
-//    else {
-//      next(err);
-//    }
-  });
-
-  app.error(function(err, req, res){
-    res.render('500.jade', { status: 500, error: err });
-  });
 
   app.get('/', function (req, res, next) {
 
@@ -78,9 +48,6 @@ db.open(function(err, db) {
         });
     }); 
   });
-
-  app.get('/404', function(req, res) { throw new NotFound(req.url); } );
-  app.get('/500', function(req, res) { next(new Error('keyboard cat!')); } );
 
   app.listen(default_port); 
 });
