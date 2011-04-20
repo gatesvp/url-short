@@ -36,7 +36,16 @@ db.open(function(err, db) {
   });
 
   app.error(function(err, req, res, next) {
-    jade.renderFile('views/404.jade', function(err,html){ res.send(html); });
+    if(err instanceof NotFound) {
+      jade.renderFile('views/404.jade', function(err,html){ res.send(html); });
+    }
+    else {
+      next(err);
+    }
+  });
+
+  app.error(function(err, req, res, next) {
+    jade.renderFile('views/500.jade', function(err, html){ res.send(html); }); 
   });
 
   app.use('/', express.errorHandler({ dump: true, stack: true }));
