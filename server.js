@@ -30,6 +30,7 @@ NotFound.prototype.__proto__ = Error.prototype;
 db.open(function(err, db) { 
   var app = express.createServer();
 
+  app.register('.html', require('jade'));
   app.use(app.router);
   app.use(function(req,res,next){
     next(new NotFound(req.url));
