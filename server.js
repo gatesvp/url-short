@@ -42,7 +42,7 @@ db.open(function(err, db) {
 //            res.write(JSON.stringify(docs[i], null, '\t'));
 //            res.write("\n\n");
 //          }
-          res.render('views/index.jade', docs);
+          jade.render('index.jade', docs);
 //          res.end("");
           //db.close();  // DO NOT CLOSE THE CONNECTION
         });
