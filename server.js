@@ -2,6 +2,7 @@ var default_port = process.env.PORT;
 
 var sys = require('sys');
 var express = require('express');
+var jade = require('jade');
 
 var Db = require('/home/node/node-mongodb-native/lib/mongodb').Db,
   Connection = require('/home/node/node-mongodb-native/lib/mongodb').Connection,
