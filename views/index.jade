@@ -1,2 +1,6 @@
 h1 Success
-  pre= docs
+  - if (docs.length)
+    ul
+      - docs.forEach(function(doc) {
+        li= doc.ip
+      - })
