@@ -1,3 +1,5 @@
+require.paths.unshift('/home/node/express/support');
+
 var default_port = process.env.PORT;
 
 var sys = require('sys');
