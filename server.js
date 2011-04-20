@@ -18,7 +18,7 @@ var db = new Db('visits', new Server(host, port, {}));
 app = express.createServer();
 
 app.get('/',function(err, req,res){
-  jade.render('views/index.jade');
+  res.render('views/index.jade');
 });
 
 app.listen(default_port); 
