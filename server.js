@@ -26,6 +26,8 @@ db.open(function(err, db) {
     jade.renderFile('views/404.jade', docs, function(err,html){ res.send(html); });
   });
 
+  app.use('/', express.errorHandler({ dump: true, stack: true }));
+
   app.get('/', function (req, res, next) {
 
     // get IP address and ts and query object
