@@ -19,7 +19,7 @@ app = express.createServer();
 
 app.get('/',function(req,res){
   var local_var = "I am a local var";
-  jade.renderFile('index.jade', {locals:{local_var:local_var}} ,function(err,html){
+  jade.renderFile('views/index.jade', {locals:{local_var:local_var}} ,function(err,html){
     res.send(html);
   });
 });
