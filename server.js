@@ -23,7 +23,7 @@ db.open(function(err, db) {
   app.set('views', __dirname + '/views');
 
   app.error(function(err, req, res, next) {
-    jade.renderFile('views/404.jade', docs, function(err,html){ res.send(html); });
+    jade.renderFile('views/404.jade', function(err,html){ res.send(html); });
   });
 
   app.use('/', express.errorHandler({ dump: true, stack: true }));
