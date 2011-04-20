@@ -32,7 +32,7 @@ db.open(function(err, db) {
 
   app.use(app.router);
   app.use(function(req,res,next){
-    new NotFound(req.url);
+    next(new NotFound(req.url));
   });
 
   app.error(function(err, req, res, next) {
