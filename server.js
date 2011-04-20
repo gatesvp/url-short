@@ -30,7 +30,6 @@ NotFound.prototype.__proto__ = Error.prototype;
 db.open(function(err, db) { 
   var app = express.createServer();
 
-  app.register('.html', require('jade'));
   app.use(app.router);
   app.use(function(req,res,next){
     next(new NotFound(req.url));
@@ -66,14 +65,14 @@ db.open(function(err, db) {
         collection.insert(global.inData);
 
         collection.find({}, {limit:5, sort:[ ['ts','desc'] ] }).toArray( function(err, docs) {
-//          res.writeHead(200, {'Content-Type': 'text/plain'});
-//          res.write("Last Five Requests\n");
-//          for(var i in docs){
-//            res.write(i + "\n");
-//            res.write(JSON.stringify(docs[i], null, '\t'));
-//            res.write("\n\n");
-//          }
-          res.render('index.jade', docs);
+          res.writeHead(200, {'Content-Type': 'text/plain'});
+          res.write("Last Five Requests\n");
+          for(var i in docs){
+            res.write(i + "\n");
+            res.write(JSON.stringify(docs[i], null, '\t'));
+            res.write("\n\n");
+          }
+//          res.render('index.jade', docs);
           res.end("");
           //db.close();  // DO NOT CLOSE THE CONNECTION
         });
