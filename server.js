@@ -19,6 +19,9 @@ db.open(function(err, db) {
   app.set('view engine', 'jade');
 
   app.use(app.router);
+  app.use(function(err, req, res, next) {
+    jade.renderFile('views/404.jade', {locals: {'error':err} }, function(err,html){ res.send(html); });
+  });
   app.use('/', express.errorHandler({ dump: true, stack: true }));
 
   app.get('/', function (req, res, next) {
