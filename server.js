@@ -40,7 +40,7 @@ db.open(function(err, db) {
         collection.insert(global.inData);
 
         collection.find({}, {limit:5, sort:[ ['ts','desc'] ] }).toArray( function(err, docs) {
-          res.render('views/index.jade', {locals: {'docs':docs} });
+          res.render('index.jade', {locals: {'docs':docs} });
         });
     }); 
   });
