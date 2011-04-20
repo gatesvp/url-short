@@ -37,16 +37,16 @@ db.open(function(err, db) {
   app.set('views', __dirname + '/views');
 
   app.error(function(err, req, res, next) {
-//    if (err instanceof NotFound) {
-      res.render('404.jade', { status : 404, error: err });
-//    }
-//    else {
-//      next(err);
-//    }
+    if (err instanceof NotFound) {
+      jade.renderFile('views/404.jade', docs, function(err,html){ res.send(html); });
+    }
+    else {
+      next(err);
+    }
   });
 
   app.error(function(err, req, res){
-    res.render('500.jade', { status: 500, error: err });
+    jade.renderFile('views/500.jade', docs, function(err,html){ res.send(html); });
   });
 
   app.get('/', function (req, res, next) {
@@ -66,11 +66,8 @@ db.open(function(err, db) {
 
         collection.find({}, {limit:5, sort:[ ['ts','desc'] ] }).toArray( function(err, docs) {
 
-          jade.renderFile('views/index.jade', docs ,function(err,html){
-            res.send(html);
-          });
+          jade.renderFile('views/index.jade', docs, function(err,html){ res.send(html); });
 
-          //db.close();  // DO NOT CLOSE THE CONNECTION
         });
     }); 
   });
