@@ -17,7 +17,6 @@ db.open(function(err, db) {
   var app = express.createServer();
 
   app.use(app.router);
-  app.set('views', __dirname + '/views');
 
   app.get('/', function (req, res, next) {
 
@@ -42,7 +41,7 @@ db.open(function(err, db) {
 //            res.write(JSON.stringify(docs[i], null, '\t'));
 //            res.write("\n\n");
 //          }
-          jade.render('index.jade', docs);
+          jade.renderFile('views/index.jade', docs);
 //          res.end("");
           //db.close();  // DO NOT CLOSE THE CONNECTION
         });
