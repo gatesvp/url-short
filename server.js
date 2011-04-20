@@ -22,31 +22,8 @@ db.open(function(err, db) {
   });
   app.set('views', __dirname + '/views');
 
-  function NotFound(path) {
-    this.name = 'NotFound';
-    if(path){
-      Error.call(this, 'Cannot find ' + path);
-      this.path = path;
-    }
-    else{
-      Error.call(this, 'Not Found');
-    }
-    Error.captureStackTrace(this, arguments.callee);
-  }
-
-  NotFound.prototype.__proto__ = Error.prototype;
-
   app.error(function(err, req, res, next) {
-    if (err instanceof NotFound) {
-      jade.renderFile('views/404.jade', docs, function(err,html){ res.send(html); });
-    }
-    else {
-      next(err);
-    }
-  });
-
-  app.error(function(err, req, res){
-    jade.renderFile('views/500.jade', docs, function(err,html){ res.send(html); });
+    jade.renderFile('views/404.jade', docs, function(err,html){ res.send(html); });
   });
 
   app.get('/', function (req, res, next) {
