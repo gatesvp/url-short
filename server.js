@@ -17,11 +17,8 @@ var db = new Db('visits', new Server(host, port, {}));
 
 app = express.createServer();
 
-app.get('/',function(req,res){
-  var local_var = "I am a local var";
-  jade.renderFile('views/index.jade', {locals:{local_var:local_var}} ,function(err,html){
-    res.send(html);
-  });
+app.get('/',function(err, req,res){
+  jade.render('views/index.jade');
 });
 
 app.listen(default_port); 
