@@ -20,7 +20,6 @@ db.open(function(err, db) {
   app.use(function(req,res,next){
     next(new NotFound(req.url));
   });
-  app.set('views', __dirname + '/views');
 
   app.error(function(err, req, res, next) {
     jade.renderFile('views/404.jade', function(err,html){ res.send(html); });
