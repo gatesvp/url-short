@@ -16,12 +16,12 @@ var db = new Db('visits', new Server(host, port, {}));
 db.open(function(err, db) { 
   var app = express.createServer();
 
-  app.use(app.router);
-  
+  app.set('view engine', 'jade');
+
+  app.use(app.router);  
   app.use(function(req,res,next){
     jade.renderFile('views/404.jade', function(err,html){ res.send(html); });
   });
-
   app.use('/', express.errorHandler({ dump: true, stack: true }));
 
   app.get('/', function (req, res, next) {
@@ -41,7 +41,7 @@ db.open(function(err, db) {
 
         collection.find({}, {limit:5, sort:[ ['ts','desc'] ] }).toArray( function(err, docs) {
 
-          jade.renderFile('views/index.jade', docs, function(err,html){ res.send(html); });
+          res.renderFile('views/index.jade', {docs : docs}, function(err,html){ res.send(html); });
 
         });
     }); 
