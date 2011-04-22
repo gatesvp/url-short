@@ -1,7 +1,7 @@
 require.paths.unshift('/home/node/express/support');
 
 var default_port = process.env.PORT;
-var pub = '/home/node/public';
+var pub = __dirname + '/public';
 var mongodb_lib = '/home/node/node-mongodb-native/lib/mongodb';
 
 /* Configure plug-ins */
@@ -25,7 +25,7 @@ db.open(function(err, db) {
   app.set('view engine', 'jade');
 
   app.use(app.router);
-  app.use(express.staticProvider(pub));
+  app.use(express.static(pub));
   app.use('/', express.errorHandler({ dump: true, stack: true }));
 
   app.get('/', function (req, res, next) {
