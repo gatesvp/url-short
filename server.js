@@ -45,7 +45,7 @@ db.open(function(err, db) {
     }); 
   });
 
-  app.get('/', function (req, res, next) {
+  app.get('/u', function (req, res, next) {
     res.render('u/index', {});
   });
 
