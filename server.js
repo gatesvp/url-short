@@ -46,7 +46,7 @@ db.open(function(err, db) {
   });
 
   app.get('/u', function (req, res, next) {
-    res.render('u/index', {});
+    res.render('short', {});
   });
 
   app.listen(default_port); 
