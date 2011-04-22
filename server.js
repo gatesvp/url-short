@@ -48,5 +48,4 @@ db.open(function(err, db) {
   app.listen(default_port); 
 });
 
-console.log('Server running on default port');
 
