@@ -45,6 +45,10 @@ db.open(function(err, db) {
     }); 
   });
 
+  app.get('/', function (req, res, next) {
+    res.render('u/index', {});
+  });
+
   app.listen(default_port); 
 });
 
