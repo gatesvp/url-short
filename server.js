@@ -1,15 +1,19 @@
 require.paths.unshift('/home/node/express/support');
 
 var default_port = process.env.PORT;
+var pub = '/home/node/public';
+var mongodb_lib = '/home/node/node-mongodb-native/lib/mongodb';
 
+/* Configure plug-ins */
 var sys = require('sys');
 var express = require('express');
 var jade = require('jade');
 
-var Db = require('/home/node/node-mongodb-native/lib/mongodb').Db,
-  Connection = require('/home/node/node-mongodb-native/lib/mongodb').Connection,
-  Server = require('/home/node/node-mongodb-native/lib/mongodb').Server,
-  BSON = require('/home/node/node-mongodb-native/lib/mongodb').BSONNative;
+/* Configure DB connections */
+var Db = require(mongodb_lib).Db,
+  Connection = require(mongodb_lib).Connection,
+  Server = require(mongodb_lib).Server,
+  BSON = require(mongodb_lib).BSONNative;
 
 var host = 'localhost';
 var port = 27017;
@@ -21,7 +25,7 @@ db.open(function(err, db) {
   app.set('view engine', 'jade');
 
   app.use(app.router);
-
+  app.use(express.static(pub));
   app.use('/', express.errorHandler({ dump: true, stack: true }));
 
   app.get('/', function (req, res, next) {
