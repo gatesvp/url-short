@@ -25,7 +25,7 @@ db.open(function(err, db) {
   app.set('view engine', 'jade');
 
   app.use(app.router);
-  app.use(express.static(pub));
+  app.use(express.staticProvider(pub));
   app.use('/', express.errorHandler({ dump: true, stack: true }));
 
   app.get('/', function (req, res, next) {
