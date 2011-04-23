@@ -18,8 +18,22 @@ var Db = require(mongodb_lib).Db,
 var host = 'localhost';
 var port = 27017;
 var db = new Db('visits', new Server(host, port, {}));
+var _current_increment = 0;
+var _hash_array = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 
 db.open(function(err, db) { 
+
+  increment_hash = function(){
+    if(_hash_array == 0){
+      db.collection('shortened', function(err, collection){
+        collection.find({}, {limit:1, sort:[ ['ts','desc'] ] }).toArray( function(err, docs) {
+          _current_increment = (docs.length > 0 ? docs[0]._id : 'a';
+        });
+      });
+    }
+    return _current_increment;
+  }
+
   var app = express.createServer();
 
   app.set('view engine', 'jade');
@@ -56,7 +70,20 @@ db.open(function(err, db) {
 
   app.post('/u', function (req, res, next) {
 
-    res.render('short', { outurl : req.body.urlin });
+    urlin = req.body.urlin;
+
+    // validate it's an actual url
+
+    db.collection('shortened', function(err, collection){
+
+      new_id = increment_hash();
+      collection.insert( { _id : new_id, url : urlin, ts : new Date().getTime() } );
+
+      outurl = 'http://gvp.no.de/'+new_id;
+
+      res.render('short', { inurl : req.body.urlin, 'outurl' : outurl });
+
+    });
 
   });
 
