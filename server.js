@@ -27,7 +27,7 @@ db.open(function(err, db) {
     if(_hash_array == 0){
       db.collection('shortened', function(err, collection){
         collection.find({}, {limit:1, sort:[ ['ts','desc'] ] }).toArray( function(err, docs) {
-          _current_increment = (docs.length > 0 ? docs[0]._id : 'a';
+          _current_increment = (docs.length > 0 ? docs[0]._id : 'a');
         });
       });
     }
