@@ -50,11 +50,11 @@ db.open(function(err, db) {
   });
 
   app.get('/u', function (req, res, next) {
-    res.render('short', {});
+    res.render('short', { printme : null });
   });
 
   app.post('/u', function (req, res, next) {
-    res.render('short', {printme:req.body.post});
+    res.render('short', { printme : req.body.post });
   });
 
   app.listen(default_port); 
