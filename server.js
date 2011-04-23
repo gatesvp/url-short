@@ -51,11 +51,13 @@ db.open(function(err, db) {
   });
 
   app.get('/u', function (req, res, next) {
-    res.render('short', { printme : 'test' });
+    res.render('short', { outurl : null });
   });
 
   app.post('/u', function (req, res, next) {
-    res.render('short', { printme : req.body.urlin });
+
+    res.render('short', { outurl : req.body.urlin });
+
   });
 
   app.listen(default_port); 
