@@ -54,7 +54,7 @@ db.open(function(err, db) {
   });
 
   app.post('/u', function (req, res, next) {
-    res.render('short', { printme : req.toJSON() });
+    res.render('short', { printme : JSON.stringify(req) });
   });
 
   app.listen(default_port); 
