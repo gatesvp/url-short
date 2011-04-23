@@ -65,7 +65,7 @@ db.open(function(err, db) {
   });
 
   app.get('/u', function (req, res, next) {
-    res.render('short', { outurl : null });
+    res.render('short', { 'inurl' : null, 'outurl' : null });
   });
 
   app.post('/u', function (req, res, next) {
@@ -77,11 +77,11 @@ db.open(function(err, db) {
     db.collection('shortened', function(err, collection){
 
       new_id = increment_hash();
-      collection.insert( { _id : new_id, url : urlin, ts : new Date().getTime() } );
+      collection.insert( { '_id' : new_id, 'url' : urlin, 'ts' : new Date().getTime() } );
 
       outurl = 'http://gvp.no.de/'+new_id;
 
-      res.render('short', { inurl : req.body.urlin, 'outurl' : outurl });
+      res.render('short', { 'inurl' : req.body.urlin, 'outurl' : outurl });
 
     });
 
