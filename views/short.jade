@@ -1,8 +1,8 @@
 h1 Enter a URL to shorten
 
-form(type='post')
-input(type='text',name='urlin')
-input(type='submit',name='shorten',value='shorten!')
+form(method='post')
+  input(type='text',name='urlin')
+  input(type='submit',name='shorten',value='shorten!')
 
 - if(printme)
   div= printme
