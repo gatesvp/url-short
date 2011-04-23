@@ -25,6 +25,7 @@ db.open(function(err, db) {
   app.set('view engine', 'jade');
 
   app.use(app.router);
+  app.use(express.bodyParser());
   app.use(express.static(pub));
   app.use('/', express.errorHandler({ dump: true, stack: true }));
 
@@ -54,7 +55,7 @@ db.open(function(err, db) {
   });
 
   app.post('/u', function (req, res, next) {
-    res.render('short', { printme : req.post.urlin });
+    res.render('short', { printme : req.body.urlin });
   });
 
   app.listen(default_port); 
