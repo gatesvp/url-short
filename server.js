@@ -53,7 +53,7 @@ var hash_gen = function(db){
   }
 
   return {
-    get_next = function(){
+    get_next : function(){
       return rebase(debase(_current_increment)+1)
     }
   };
