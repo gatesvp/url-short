@@ -52,11 +52,9 @@ var hash_gen = function(db){
     return res;
   }
 
-  return {
-    get_next : function(){
-      return rebase(debase(_current_increment)+1)
-    }
-  };
+  get_next : function(){
+    return rebase(debase(_current_increment)+1)
+  }
 }
   
 
