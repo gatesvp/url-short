@@ -53,6 +53,10 @@ db.open(function(err, db) {
     res.render('short', {});
   });
 
+  app.post('/u', function (req, res, next) {
+    res.render('short', {printme:req.body.post});
+  });
+
   app.listen(default_port); 
 });
 
