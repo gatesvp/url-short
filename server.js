@@ -18,52 +18,52 @@ var Db = require(mongodb_lib).Db,
 var host = 'localhost';
 var port = 27017;
 var db = new Db('visits', new Server(host, port, {}));
-var _current_increment = 'a';
-var _hash_array = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-get_next_increment = function(curr){
-  if(!curr){
-    return 'a';
-  }
-  return rebase(debase(curr)+1)
-}
-debase = function(x){
-  var l = _hash_array.length;
-  var sum = 0;
 
-  for(i = 0; i < x.length; i++){
-    sum += demod(x[i]) * i * l;
-  }
-  return sum;
-}
-demod = function(x){
-  return _hash_array.indexOf(x);
-}
-rebase = function(x){
-  l = _hash_array.length;
-  var res = _hash_array[x % l];
+var hash_gen = function(db){
+  var _current_increment = '';
+  var _hash_array = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 
-  while( x / l >= 1){
-    x = x/l;
-    res += _hash_array[x % l];
+  db.collection('shortened', function(err, collection){
+    collection.find({}, {limit:1, sort:[ ['ts','desc'] ] }).toArray( function(err, docs) {
+      _current_increment = (docs.length > 0 ? docs[0]._id : 'a');
+    });
+  });
+
+  debase = function(x){
+    var l = _hash_array.length;
+    var sum = 0;
+
+    for(i = 0; i < x.length; i++){
+      sum += demod(x[i]) * i * l;
+    }
+    return sum;
   }
-  return res;
+  demod = function(x){
+    return _hash_array.indexOf(x);
+  }
+  rebase = function(x){
+    l = _hash_array.length;
+    var res = _hash_array[x % l];
+
+    while( x / l >= 1){
+      x = x/l;
+      res += _hash_array[x % l];
+    }
+    return res;
+  }
+
+  return {
+    get_next = function(){
+      return rebase(debase(_current_increment)+1)
+    }
+  };
 }
+  
 
 db.open(function(err, db) { 
 
-  increment_hash = function(){
-    if(_hash_array == 'a'){
-      db.collection('shortened', function(err, collection){
-        collection.find({}, {limit:1, sort:[ ['ts','desc'] ] }).toArray( function(err, docs) {
-          _current_increment = (docs.length > 0 ? docs[0]._id : 'a');
-        });
-      });
-    }
-    _current_increment = get_next_increment(_current_increment);
-    return _current_increment;
-  }
-
   var app = express.createServer();
+  var gen = hash_gen(db);
 
   app.set('view engine', 'jade');
 
@@ -105,7 +105,7 @@ db.open(function(err, db) {
 
     db.collection('shortened', function(err, collection){
 
-      new_id = increment_hash();
+      new_id = hash_gen.get_next();
       collection.insert( { '_id' : new_id, 'url' : urlin, 'ts' : new Date().getTime() } );
 
       outurl = 'http://gvp.no.de/'+new_id;
