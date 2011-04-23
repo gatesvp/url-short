@@ -50,7 +50,7 @@ db.open(function(err, db) {
   });
 
   app.get('/u', function (req, res, next) {
-    res.render('short', { printme : null });
+    res.render('short', { printme : 'test' });
   });
 
   app.post('/u', function (req, res, next) {
