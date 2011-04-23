@@ -34,12 +34,9 @@ var hash_gen = function(db){
     var sum = 0;
 
     for(i = 0; i < x.length; i++){
-      sum += demod(x[i]) * i * l;
+      sum += _hash_array.indexOf(x[i]) + (i * l);
     }
     return sum;
-  }
-  demod = function(x){
-    return _hash_array.indexOf(x);
   }
   rebase = function(x){
     l = _hash_array.length;
