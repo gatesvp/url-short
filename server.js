@@ -57,7 +57,7 @@ var hash_gen = function(db){
       return rebase(debase(_current_increment)+1)
     }
   };
-}();
+};
   
 
 db.open(function(err, db) { 
