@@ -52,10 +52,12 @@ var hash_gen = function(db){
     return res;
   }
 
-  get_next = function(){
-    return rebase(debase(_current_increment)+1)
-  }
-}
+  return {
+    get_next : function(){
+      return rebase(debase(_current_increment)+1)
+    }
+  };
+}();
   
 
 db.open(function(err, db) { 
@@ -103,7 +105,7 @@ db.open(function(err, db) {
 
     db.collection('shortened', function(err, collection){
 
-      new_id = hash_gen.get_next();
+      new_id = gen.get_next();
       collection.insert( { '_id' : new_id, 'url' : urlin, 'ts' : new Date().getTime() } );
 
       outurl = 'http://gvp.no.de/'+new_id;
