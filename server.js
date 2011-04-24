@@ -24,7 +24,7 @@ var db = new Db('visits', new Server(host, port, {}));
 db.open(function(err, db) { 
 
   var app = express.createServer();
-  var gen = require(__dirname + 'hash_gen.js')(db);
+  var gen = require(__dirname + '/hash_gen.js')(db);
 
   app.set('view engine', 'jade');
 
