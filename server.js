@@ -20,19 +20,18 @@ var port = 27017;
 var db = new Db('visits', new Server(host, port, {}));
 
 
-db.open(function(err, db) { 
+var app = express.createServer();
+var gen = require('./hash_gen.js').hash_gen(db);
 
-  var app = express.createServer();
-  var gen = require('./hash_gen.js').hash_gen(db);
+app.set('view engine', 'jade');
 
-  app.set('view engine', 'jade');
+app.use(express.bodyParser());
+app.use(app.router);
+app.use(express.static(pub));
+app.use('/', express.errorHandler({ dump: true, stack: true }));
 
-  app.use(express.bodyParser());
-  app.use(app.router);
-  app.use(express.static(pub));
-  app.use('/', express.errorHandler({ dump: true, stack: true }));
-
-  app.get('/', function (req, res, next) {
+app.get('/', function (req, res, next) {
+  db.open(function(err, db) { 
 
     // get IP address and ts and query object
     global.inData = { };
@@ -52,31 +51,30 @@ db.open(function(err, db) {
         });
     }); 
   });
+});
 
-  app.get('/u', function (req, res, next) {
-    res.render('short', { 'inurl' : null, 'outurl' : null });
-  });
+app.get('/u', function (req, res, next) {
+  res.render('short', { 'inurl' : null, 'outurl' : null });
+});
 
-  app.post('/u', function (req, res, next) {
+app.post('/u', function (req, res, next) {
 
-    urlin = req.body.urlin;
+  urlin = req.body.urlin;
 
-    // validate it's an actual url
-
+  // validate it's an actual url
+  db.open(function(err, db) { 
     db.collection('shortened', function(err, collection){
-
       new_id = gen.get_next();
       collection.insert( { '_id' : new_id, 'url' : urlin, 'ts' : new Date().getTime() } );
 
       outurl = 'http://gvp.no.de/'+new_id;
 
       res.render('short', { 'inurl' : req.body.urlin, 'outurl' : outurl });
-
     });
-
   });
-
-  app.listen(default_port); 
 });
+
+app.listen(default_port); 
+
 
 
