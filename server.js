@@ -1,5 +1,4 @@
 require.paths.unshift('/home/node/express/support');
-//require.paths.unshift(__dirname + 'hash_gen.js');
 
 var default_port = process.env.PORT;
 var pub = __dirname + '/public';
@@ -24,7 +23,7 @@ var db = new Db('visits', new Server(host, port, {}));
 db.open(function(err, db) { 
 
   var app = express.createServer();
-  var gen = require(__dirname + '/hash_gen.js')(db);
+  var gen = require('./hash_gen.js').hash_gen(db);
 
   app.set('view engine', 'jade');
 
