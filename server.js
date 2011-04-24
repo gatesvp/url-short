@@ -1,5 +1,5 @@
 require.paths.unshift('/home/node/express/support');
-//require.paths.unshift(__dirname + 'hash_gen.js');
+require.paths.unshift(__dirname + 'hash_gen.js');
 
 var default_port = process.env.PORT;
 var pub = __dirname + '/public';
