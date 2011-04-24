@@ -18,22 +18,21 @@ var host = 'localhost';
 var port = 27017;
 var db = new Db('visits', new Server(host, port, {}));
 
-/* Import and initialize hash generator */
-//var gen = require('./hash_gen.js').hash_gen(db);
+db.open(function(err, conn) { 
+  /* Import and initialize hash generator */
+  var gen = require('./hash_gen.js').hash_gen(conn);
 
-/* Configure application */
-var app = express.createServer();
+  /* Configure application */
+  var app = express.createServer();
 
-app.set('view engine', 'jade');
+  app.set('view engine', 'jade');
 
-app.use(express.bodyParser());
-app.use(app.router);
-app.use(express.static(pub));
-app.use('/', express.errorHandler({ dump: true, stack: true }));
+  app.use(express.bodyParser());
+  app.use(app.router);
+  app.use(express.static(pub));
+  app.use('/', express.errorHandler({ dump: true, stack: true }));
 
-app.get('/', function (req, res, next) {
-  db.open(function(err, conn) { 
-
+  app.get('/', function (req, res, next) {
     // get IP address and ts and query object
     global.inData = { };
     global.inData.ip = req.connection.remoteAddress;
@@ -52,18 +51,16 @@ app.get('/', function (req, res, next) {
         });
     }); 
   });
-});
 
-app.get('/u', function (req, res, next) {
-  res.render('short', { 'inurl' : null, 'outurl' : null });
-});
+  app.get('/u', function (req, res, next) {
+    res.render('short', { 'inurl' : null, 'outurl' : null });
+  });
 
-app.post('/u', function (req, res, next) {
+  app.post('/u', function (req, res, next) {
 
-  urlin = req.body.urlin;
+    urlin = req.body.urlin;
 
-  // validate it's an actual url
-  db.open(function(err, conn) { 
+    // validate it's an actual url
     conn.collection('shortened', function(err, collection){
       new_id = gen.get_next();
       collection.insert( { '_id' : new_id, 'url' : urlin, 'ts' : new Date().getTime() } );
@@ -73,9 +70,8 @@ app.post('/u', function (req, res, next) {
       res.render('short', { 'inurl' : req.body.urlin, 'outurl' : outurl });
     });
   });
+
+  app.listen(default_port); 
 });
-
-app.listen(default_port); 
-
 
 
