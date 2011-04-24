@@ -21,7 +21,7 @@ var db = new Db('visits', new Server(host, port, {}));
 /* Import and initialize hash generator */
 var gen = {};
 db.open(function(err, conn) { 
-  gen = require('./hash_gen.js').hash_gen(db);
+  gen = require('./hash_gen.js').hash_gen(conn);
 });
 
 /* Configure application */
