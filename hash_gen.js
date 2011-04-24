@@ -2,8 +2,8 @@ module.exports.hash_gen = function(db){
   var _current_increment = '';
   var _hash_array = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 
-  db.open(function(err, db) { 
-    db.collection('shortened', function(err, collection){
+  db.open(function(err, conn) { 
+    conn.collection('shortened', function(err, collection){
       collection.find({}, {limit:1, sort:[ ['ts','desc'] ] }).toArray( function(err, docs) {
         _current_increment = (docs.length > 0 ? docs[0]._id : 'a');
       });
