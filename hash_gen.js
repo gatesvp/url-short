@@ -1,4 +1,4 @@
-exports.hash_gen = function(db){
+module.exports.hash_gen = function(db){
   var _current_increment = '';
   var _hash_array = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 
