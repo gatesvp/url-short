@@ -18,7 +18,11 @@ var host = 'localhost';
 var port = 27017;
 var db = new Db('visits', new Server(host, port, {}));
 
-var gen = require('./hash_gen.js').hash_gen(db);
+/* Import and initialize hash generator */
+var gen = {};
+db.open(function(err, conn) { 
+  gen = require('./hash_gen.js').hash_gen(db);
+};
 
 /* Configure application */
 var app = express.createServer();
