@@ -18,7 +18,7 @@ var host = 'localhost';
 var port = 27017;
 var db = new Db('visits', new Server(host, port, {}));
 
-var gen = require('./hash_gen.js').hash_gen(db);
+//var gen = require('./hash_gen.js').hash_gen(db);
 
 /* Configure application */
 var app = express.createServer();
@@ -31,7 +31,7 @@ app.use(express.static(pub));
 app.use('/', express.errorHandler({ dump: true, stack: true }));
 
 app.get('/', function (req, res, next) {
-  db.open(function(err, db) { 
+  db.open(function(err, conn) { 
 
     // get IP address and ts and query object
     global.inData = { };
@@ -39,7 +39,7 @@ app.get('/', function (req, res, next) {
     global.inData.ts = parseInt(new Date().valueOf());
     global.inData.qs = require('url').parse(req.url, true);
 
-    db.collection('views', function(err, collection) { 
+    conn.collection('views', function(err, collection) { 
         if (err) {
             console.log('is error \n' + err);
         }
@@ -62,8 +62,8 @@ app.post('/u', function (req, res, next) {
   urlin = req.body.urlin;
 
   // validate it's an actual url
-  db.open(function(err, db) { 
-    db.collection('shortened', function(err, collection){
+  db.open(function(err, conn) { 
+    conn.collection('shortened', function(err, collection){
       new_id = gen.get_next();
       collection.insert( { '_id' : new_id, 'url' : urlin, 'ts' : new Date().getTime() } );
 
