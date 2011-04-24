@@ -22,7 +22,7 @@ var db = new Db('visits', new Server(host, port, {}));
 var gen = {};
 db.open(function(err, conn) { 
   gen = require('./hash_gen.js').hash_gen(db);
-};
+});
 
 /* Configure application */
 var app = express.createServer();
