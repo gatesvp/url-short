@@ -8,4 +8,5 @@ form(method='post',action='/new')
   #out_short= outurl
 
 - if(inurl)
-  #in_short= JSON.stringify(inurl)
+-   for (var key in inurl)
+  $in_short= inurl[key]
