@@ -8,5 +8,6 @@ form(method='post',action='/new')
   #out_short= outurl
 
 - if(inurl)
+  ul
 -   for (var key in inurl)
-  $in_short= inurl[key]
+    li= key: =inurl[key]
