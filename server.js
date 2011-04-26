@@ -55,7 +55,7 @@ db.open(function(err, conn) {
   });
 
   app.get('/:stub', function (req, res, next) {
-    res.render('short', { 'inurl' : req.params, 'outurl' : null });
+    res.render('short', { 'inurl' : req.params.stub, 'outurl' : null });
   });
 
   app.post('/new', function (req, res, next) {
