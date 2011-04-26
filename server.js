@@ -36,17 +36,17 @@ db.open(function(err, conn) {
 
   app.get('/', function (req, res, next) {
     // get IP address and ts and query object
-    global.inData = { };
-    global.inData.ip = req.connection.remoteAddress;
-    global.inData.ts = parseInt(new Date().valueOf());
-    global.inData.qs = require('url').parse(req.url, true);
+    var inData = { };
+    inData.ip = req.connection.remoteAddress;
+    inData.ts = parseInt(new Date().valueOf());
+    inData.qs = require('url').parse(req.url, true);
 
     conn.collection('views', function(err, collection) { 
         if (err) {
             console.log('is error \n' + err);
         }
 
-        collection.insert(global.inData);
+        collection.insert(inData);
 
         collection.find({}, {limit:5, sort:[ ['ts','desc'] ] }).toArray( function(err, docs) {
           res.render('index', {locals: {'docs':docs} });
