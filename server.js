@@ -34,7 +34,7 @@ db.open(function(err, conn) {
   app.use(express.static(pub));
   app.use('/', express.errorHandler({ dump: true, stack: true }));
 
-  app.get('/', function (req, res, next) {
+  app.get('/old', function (req, res, next) {
     // get IP address and ts and query object
     var inData = { };
     inData.ip = req.connection.remoteAddress;
@@ -54,11 +54,11 @@ db.open(function(err, conn) {
     }); 
   });
 
-  app.get('/u', function (req, res, next) {
+  app.get('/', function (req, res, next) {
     res.render('short', { 'inurl' : null, 'outurl' : null });
   });
 
-  app.post('/u', function (req, res, next) {
+  app.post('/new', function (req, res, next) {
 
     urlin = req.body.urlin;
 
