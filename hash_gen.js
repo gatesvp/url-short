@@ -1,4 +1,4 @@
-module.exports.hash_gen = function(var conn){
+module.exports.hash_gen = function(conn){
   var _current_increment = '';
   var _hash_array = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 
