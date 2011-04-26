@@ -54,9 +54,14 @@ db.open(function(err, conn) {
     }); 
   });
 
+  app.get('/', function (req, res, next) {
+    res.render('short', { 'inurl' : null, 'outurl' : null });
+  });
+
   app.get('/:stub', function (req, res, next) {
     res.render('short', { 'inurl' : req.stub, 'outurl' : null });
   });
+
 
   app.post('/new', function (req, res, next) {
 
