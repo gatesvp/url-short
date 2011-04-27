@@ -67,9 +67,14 @@ db.open(function(err, conn) {
     else{
       conn.collection('shortened', function(err, collection) { 
         collection.findOne({_id : req.params.stub}, function(err, data) {
-          res.writeHead(200, {'Content-Type' : 'text/plain'});
-          res.write(data.url);
-          res.end();
+          if(data){
+            res.redirect(data.url);
+          }
+          else {
+            res.writeHead(200, {'Content-Type' : 'text/plain'});
+            res.write('HASH NOT FOUND');
+            res.end();
+          }
         });
       });
     } 
