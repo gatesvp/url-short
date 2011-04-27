@@ -66,10 +66,10 @@ db.open(function(err, conn) {
     }
     else{
       conn.collection('shortened', function(err, collection) { 
-        collection.findOne({_id : req.params.stub})( function(err, data) {
+        collection.find({_id : req.params.stub}).toArray()( function(err, data) {
 //          if(data){
             res.writeHead(200, {'Content-Type' : 'text/plain'});
-            res.write(data.url);
+            res.write(data[0].url);
             res.end();
 /*          }
           else{
