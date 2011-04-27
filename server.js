@@ -60,17 +60,17 @@ db.open(function(err, conn) {
 
   app.get('/:stub', function (req, res, next) {
     if(!req.params.stub){
-      res.render('not_found');
+      res.writeHead(200, {'Content-Type' : 'text/plain'});
+      res.write("Not found");
+      res.end();
     }
     else{
       conn.collection('shortened', function(err, collection) { 
         collection.find({_id : req.params.stub}).toArray( function(err, docs) {
-          if(docs.length >= 1){
-            res.redirect(doc[0]._id);
-          }
-          else{
-            res.render('short', {} );
-          }
+          res.writeHead(200, {'Content-Type' : 'text/plain'});
+          res.write('Found ' + docs.length + ' objects');
+          res.write(JSON.stringify(docs));
+          res.end();
         });
       });
     } 
