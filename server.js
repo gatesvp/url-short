@@ -61,14 +61,14 @@ db.open(function(err, conn) {
     else {
       conn.collection('shortened', function(err, collection) { 
         collection.find({_id : req.params.stub}).toArray( function(err, doc) {
-          res.render('compressed', {locals: {'doc':doc} });
+          res.redirect(doc[0]._id);
         });
       }); 
     }    
 
   });
 
-  app.post('/new', function (req, res, next) {
+  app.post('/', function (req, res, next) {
 
     urlin = req.body.urlin;
 
@@ -81,10 +81,6 @@ db.open(function(err, conn) {
 
       res.render('short', { 'inurl' : req.body.urlin, 'outurl' : outurl });
     });
-  });
-
-  app.get('/', function (req, res, next) {
-    res.render('short', { 'inurl' : null, 'outurl' : null });
   });
 
   app.listen(default_port); 
