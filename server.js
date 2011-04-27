@@ -59,17 +59,16 @@ db.open(function(err, conn) {
   });
 
   app.get('/:stub', function (req, res, next) {
-    if(true){
-      res.render('short', { });
-    }
-    else {
-      conn.collection('shortened', function(err, collection) { 
-        collection.find({_id : req.params.stub}).toArray( function(err, doc) {
+    conn.collection('shortened', function(err, collection) { 
+      collection.find({_id : req.params.stub}).toArray( function(err, docs) {
+        if(docs.length >= 1){
           res.redirect(doc[0]._id);
-        });
-      }); 
-    }    
-
+        }
+        else{
+          res.render('short', {} );
+        }
+      });
+    }); 
   });
 
   app.post('/', function (req, res, next) {
