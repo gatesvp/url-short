@@ -34,18 +34,6 @@ db.open(function(err, conn) {
   app.use(express.static(pub));
   app.use('/', express.errorHandler({ dump: true, stack: true }));
 
-record_url_view = function (req, conn, url_obj) {
-  // get IP address and ts and query object
-  var inData = { };
-  inData.ip = req.connection.remoteAddress;
-  inData.ts = parseInt(new Date().valueOf());
-  inData.url = url_obj.url;
-
-  conn.collection('url_views', function(err, collection) { 
-    collection.insert(inData);
-  });
-}
-
   app.get('/', function (req, res, next) {
     res.render('short', {} );
   });
@@ -60,8 +48,15 @@ record_url_view = function (req, conn, url_obj) {
       conn.collection('shortened', function(err, collection) { 
         collection.findOne({_id : req.params.stub}, function(err, data) {
           if(data){
-            record_url_view(req, conn, url);
-            res.redirect(data.url);
+            var inData = { };
+            inData.ip = req.connection.remoteAddress;
+            inData.ts = parseInt(new Date().valueOf());
+            inData.url = url_obj.url;
+
+            conn.collection('url_views', function(err, collection) { 
+              collection.insert(inData);
+              res.redirect(data.url);
+            });
           }
           else {
             res.writeHead(200, {'Content-Type' : 'text/plain'});
