@@ -55,7 +55,7 @@ db.open(function(err, conn) {
   });
 
   app.get('/:stub', function (req, res, next) {
-    if(req.params.stub !== null){
+    if(req.params.stub === null){
       res.render('short', { });
     }
     else {
