@@ -58,15 +58,13 @@ db.open(function(err, conn) {
             setData.url = data.url;
             incData['hours.'+(ts.getHours().toString())] = 1;
 
-res.redirect(data.url);
-
-/*            conn.collection('shortened_views', function(err, collection) { 
+            conn.collection('shortened_views', function(err, collection) { 
               if(err) { throw err; }
               collection.update({'_id' : query_id}, {$set : setData, $inc : incData}, {upsert:true}, function(err, doc){
                 if(err) { throw err; }
                 res.redirect(data.url);
               });
-            });*/
+            });
           }
           else {
             res.writeHead(200, {'Content-Type' : 'text/plain'});
