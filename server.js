@@ -59,7 +59,9 @@ db.open(function(err, conn) {
   });
 
   app.get('/:stub', function (req, res, next) {
-    res.render('index');
+    if(req.params.stub){
+      res.render('index');
+    }
 
 /*    
       conn.collection('shortened', function(err, collection) { 
