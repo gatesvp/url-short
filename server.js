@@ -51,11 +51,11 @@ db.open(function(err, conn) {
             var setData = { };
             var incData = { };
             var ts = new Date();
-            var date_string = ts.getFullYear().toString() + (ts.getMonth()+1).toString() + ts.getDate().toString();
-            var query_id = data._id + '_' + date_string;
-            setData.ip[ts.getTime()] = req.connection.remoteAddress;
-            setData.url = data.url;
-            incData.hours[ts.getHours()] = new Date();
+            //var date_string = ts.getFullYear().toString() + (ts.getMonth()+1).toString() + ts.getDate().toString();
+            //var query_id = data._id + '_' + date_string;
+            //setData.ip[ts.getTime()] = req.connection.remoteAddress;
+            //setData.url = data.url;
+            //incData.hours[ts.getHours()] = 1;
 
 res.redirect(data.url);
 
