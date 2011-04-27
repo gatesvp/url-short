@@ -55,7 +55,17 @@ db.open(function(err, conn) {
   });
 
   app.get('/:stub', function (req, res, next) {
-    res.render('short', { 'inurl' : req.params.stub, 'outurl' : null });
+    if(req.params.stub !== null){
+      res.render('short', { });
+    }
+    else {
+      conn.collection('shortened', function(err, collection) { 
+        collection.find({_id : req.params.stub}).toArray( function(err, doc) {
+          res.render('compressed', {locals: {'doc':doc} });
+        });
+      }); 
+    }    
+
   });
 
   app.post('/new', function (req, res, next) {
