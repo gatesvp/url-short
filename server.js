@@ -66,11 +66,17 @@ db.open(function(err, conn) {
     }
     else{
       conn.collection('shortened', function(err, collection) { 
-        collection.find({_id : req.params.stub}).toArray( function(err, docs) {
-          res.writeHead(200, {'Content-Type' : 'text/plain'});
-          res.write('Found ' + docs.length + ' objects');
-          res.write(JSON.stringify(docs));
-          res.end();
+        collection.findOne({_id : req.params.stub})( function(err, data) {
+          if(data){
+            res.writeHead(200, {'Content-Type' : 'text/plain'});
+            res.write(docs[0].url);
+            res.end();
+          }
+          else{
+            res.writeHead(200, {'Content-Type' : 'text/plain'});
+            res.write('Hash not found');
+            res.end();
+          }
         });
       });
     } 
