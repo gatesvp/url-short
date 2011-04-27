@@ -55,7 +55,7 @@ db.open(function(err, conn) {
             var query_id = data._id + '_' + date_string;
             //setData.ip[ts.getTime().toString()] = req.connection.remoteAddress;
             setData.url = data.url;
-            incData.hours = { ts.getHours().toString() : 1 };
+            incData.hours = { (ts.getHours().toString()) : 1 };
 
 res.redirect(data.url);
 
