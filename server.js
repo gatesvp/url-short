@@ -54,6 +54,10 @@ db.open(function(err, conn) {
     }); 
   });
 
+  app.get('/', function (req, res, next) {
+    res.render('short', {} );
+  }
+
   app.get('/:stub', function (req, res, next) {
     if(true){
       res.render('short', { });
