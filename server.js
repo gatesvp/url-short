@@ -58,6 +58,7 @@ db.open(function(err, conn) {
             incData.hours[ts.getHours()] = new Date();
 
             conn.collection('shortened_views', function(err, collection) { 
+              if(err) { throw err; }
               collection.update({'_id' : query_id}, {$set : setData, $inc : incData}, {upsert:true}, function(){
                 res.redirect(data.url);
               });
