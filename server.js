@@ -51,7 +51,7 @@ db.open(function(err, conn) {
             var inData = { };
             inData.ip = req.connection.remoteAddress;
             inData.ts = parseInt(new Date().valueOf());
-            inData.url = url_obj.url;
+            inData.url = data.url;
 
             conn.collection('url_views', function(err, collection) { 
               collection.insert(inData);
