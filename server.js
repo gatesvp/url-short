@@ -59,22 +59,21 @@ db.open(function(err, conn) {
   });
 
   app.get('/:stub', function (req, res, next) {
-    if(req.params.stub){
-      res.render('index');
+    if(!req.params.stub){
+      res.render('not_found');
     }
-
-/*    
+    else{
       conn.collection('shortened', function(err, collection) { 
-      collection.find({_id : req.params.stub}).toArray( function(err, docs) {
-        if(docs.length >= 1){
-          res.redirect(doc[0]._id);
-        }
-        else{
-          res.render('short', {} );
-        }
+        collection.find({_id : req.params.stub}).toArray( function(err, docs) {
+          if(docs.length >= 1){
+            res.redirect(doc[0]._id);
+          }
+          else{
+            res.render('short', {} );
+          }
+        });
       });
-    }); 
-*/
+    } 
   });
 
   app.post('/', function (req, res, next) {
