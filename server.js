@@ -59,7 +59,8 @@ db.open(function(err, conn) {
 
             conn.collection('shortened_views', function(err, collection) { 
               if(err) { throw err; }
-              collection.update({'_id' : query_id}, {$set : setData, $inc : incData}, {upsert:true}, function(){
+              collection.update({'_id' : query_id}, {$set : setData, $inc : incData}, {upsert:true}, function(err, doc){
+                if(err) { throw err; }
                 res.redirect(data.url);
               });
             });
