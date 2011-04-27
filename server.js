@@ -34,25 +34,17 @@ db.open(function(err, conn) {
   app.use(express.static(pub));
   app.use('/', express.errorHandler({ dump: true, stack: true }));
 
-  app.get('/old', function (req, res, next) {
-    // get IP address and ts and query object
-    var inData = { };
-    inData.ip = req.connection.remoteAddress;
-    inData.ts = parseInt(new Date().valueOf());
-    inData.qs = require('url').parse(req.url, true);
+record_url_view = function (req, conn, url_obj) {
+  // get IP address and ts and query object
+  var inData = { };
+  inData.ip = req.connection.remoteAddress;
+  inData.ts = parseInt(new Date().valueOf());
+  inData.url = url_obj.url;
 
-    conn.collection('views', function(err, collection) { 
-        if (err) {
-            console.log('is error \n' + err);
-        }
-
-        collection.insert(inData);
-
-        collection.find({}, {limit:5, sort:[ ['ts','desc'] ] }).toArray( function(err, docs) {
-          res.render('index', {locals: {'docs':docs} });
-        });
-    }); 
+  conn.collection('url_views', function(err, collection) { 
+    collection.insert(inData);
   });
+}
 
   app.get('/', function (req, res, next) {
     res.render('short', {} );
@@ -68,6 +60,7 @@ db.open(function(err, conn) {
       conn.collection('shortened', function(err, collection) { 
         collection.findOne({_id : req.params.stub}, function(err, data) {
           if(data){
+            record_url_view(req, conn, url);
             res.redirect(data.url);
           }
           else {
@@ -91,11 +84,16 @@ db.open(function(err, conn) {
 
       outurl = 'http://gvp.no.de/'+new_id;
 
-      res.render('short', { 'inurl' : req.body.urlin, 'outurl' : outurl });
+      res.render('compressed', { 'inurl' : req.body.urlin, 'outurl' : outurl });
     });
   });
 
   app.listen(default_port); 
 });
 
+/*
 
+    collection.find({}, {limit:5, sort:[ ['ts','desc'] ] }).toArray( function(err, docs) {
+      res.render('index', {locals: {'docs':docs} });
+    });
+*/
