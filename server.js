@@ -59,6 +59,8 @@ db.open(function(err, conn) {
   });
 
   app.get('/:stub', function (req, res, next) {
+    res.render('index');
+
     conn.collection('shortened', function(err, collection) { 
       collection.find({_id : req.params.stub}).toArray( function(err, docs) {
         if(docs.length >= 1){
