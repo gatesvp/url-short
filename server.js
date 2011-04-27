@@ -48,14 +48,19 @@ db.open(function(err, conn) {
       conn.collection('shortened', function(err, collection) { 
         collection.findOne({_id : req.params.stub}, function(err, data) {
           if(data){
-            var inData = { };
-            inData.ip = req.connection.remoteAddress;
-            inData.ts = parseInt(new Date().valueOf());
-            inData.url = data.url;
+            var setData = { };
+            var incData = { };
+            var ts = new Date();
+            var date_string = ts.getFullYear().toString() + (ts.getMonth()+1).toString() + ts.getDate().toString();
+            var query_id = data._id + '_' + date_string;
+            setData.ip[ts.getTime()] = req.connection.remoteAddress;
+            setData.url = data.url;
+            incData.hours[ts.getHours()] = new Date();
 
-            conn.collection('url_views', function(err, collection) { 
-              collection.insert(inData);
-              res.redirect(data.url);
+            conn.collection('shortened_views', function(err, collection) { 
+              collection.update({'_id', query_id}, {$set : setData, $inc : incData}, {upsert:true}, function(){
+                res.redirect(data.url);
+              });
             });
           }
           else {
