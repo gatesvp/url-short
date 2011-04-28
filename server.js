@@ -66,9 +66,7 @@ db.open(function(err, conn) {
             });
           }
           else {
-            res.writeHead(200, {'Content-Type' : 'text/plain'});
-            res.write('HASH NOT FOUND');
-            res.end();
+            res.render('404', { status: 404, error: { path: req.params.stub } } );
           }
         });
       });
