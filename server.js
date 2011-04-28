@@ -41,13 +41,11 @@ db.open(function(err, conn) {
 
   app.get('/:stub', function (req, res, next) {
     if(!req.params.stub){
-      res.writeHead(200, {'Content-Type' : 'text/plain'});
-      res.write("Not found");
-      res.end();
+      res.render('404', { status: 404, error: null });
     }
     else{
       conn.collection('shortened', function(err, collection) { 
-        collection.findOne({_id : req.params.stub}, function(err, data) {
+        collection.findOne({_id: req.params.stub}, function(err, data) {
           if(data){
             var setData = { };
             var incData = { };
