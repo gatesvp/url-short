@@ -29,7 +29,7 @@ db.open(function(err, conn) {
 
   app.set('view engine', 'jade');
 
-  app.use(express.favicon());
+  app.use(express.favicon(pub+'/favicon.ico'));
   app.use(express.bodyParser());
   app.use(app.router);
   app.use(express.static(pub));
