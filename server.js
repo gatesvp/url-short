@@ -1,8 +1,8 @@
 var default_port = process.env.PORT || 8080;
 var pub = __dirname + '/public';
 var root_folder = process.env.HOME;
-var mongodb_lib = root_folder + 'node-mongodb-native/lib/mongodb';
-require.paths.unshift(root_folder + 'express/support');
+var mongodb_lib = root_folder + '/node-mongodb-native/lib/mongodb';
+require.paths.unshift(root_folder + '/express/support');
 
 /* Configure plug-ins */
 var sys = require('sys');
