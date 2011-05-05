@@ -1,9 +1,7 @@
-var default_port = process.env.PORT;
-//var default_port = 8080;
+var default_port = process.env.PORT || 8080;
 var pub = __dirname + '/public';
-var root_folder = '/home/node/';
+var root_folder = process.env.HOME;
 var mongodb_lib = root_folder + 'node-mongodb-native/lib/mongodb';
-
 require.paths.unshift(root_folder + 'express/support');
 
 /* Configure plug-ins */
@@ -34,6 +32,10 @@ db.open(function(err, conn) {
   app.use(app.router);
   app.use(express.static(pub));
   app.use('/', express.errorHandler({ dump: true, stack: true }));
+
+  app.get('/paste/', function(req, res, next) {
+    res.render('paste', {});
+  });
 
   app.get('/', function (req, res, next) {
     res.render('short', {} );
@@ -91,9 +93,4 @@ db.open(function(err, conn) {
   app.listen(default_port); 
 });
 
-/*
 
-    collection.find({}, {limit:5, sort:[ ['ts','desc'] ] }).toArray( function(err, docs) {
-      res.render('index', {locals: {'docs':docs} });
-    });
-*/
