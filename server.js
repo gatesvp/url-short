@@ -63,6 +63,7 @@ db.open(function(err, conn) {
               if(err) { throw err; }
               collection.update({'_id' : query_id}, {$set : setData, $inc : incData}, {upsert:true}, function(err, doc){
                 if(err) { throw err; }
+                res.write("Redirecting...");
                 res.redirect(data.url);
               });
             });
