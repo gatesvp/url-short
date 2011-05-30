@@ -37,6 +37,10 @@ db.open(function(err, conn) {
     res.render('paste', {});
   });
 
+  app.get('/paste', function(req, res, next) {
+    res.render('paste', {});
+  });
+
   app.get('/', function (req, res, next) {
     res.render('short', {} );
   });
@@ -78,20 +82,31 @@ db.open(function(err, conn) {
 
   app.post('/', function (req, res, next) {
 
+    /* Trim URL, prepend HTTP if necessary */
     urlin = req.body.urlin;
+    urlin = urlin.replace(/^\s\s*/, '').replace(/\s\s*$/, '')
+    if(urlin.substring(0,4) != 'http'){
+      urlin += 'http://';
+    }
 
     // validate it's an actual url
-    conn.collection('shortened', function(err, collection){
-      new_id = gen.get_next();
-      collection.insert( { '_id' : new_id, 'url' : urlin, 'ts' : new Date().getTime() } );
+    var url_valid = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
+  	if (!url_valid.test(urlin)){
+      res.render('short', {message: "invalid url"});
+    }
+    else{
+      conn.collection('shortened', function(err, collection){
+        new_id = gen.get_next();
+        collection.insert( { '_id' : new_id, 'url' : urlin, 'ts' : new Date().getTime() } );
 
-      outurl = 'http://gvp.no.de/'+new_id;
+        outurl = 'http://gvp.no.de/'+new_id;
 
-      res.render('compressed', { 'inurl' : req.body.urlin, 'outurl' : outurl });
-    });
+        res.render('compressed', { 'inurl' : req.body.urlin, 'outurl' : outurl });
+      });
+    }
   });
 
   app.listen(default_port); 
 });
 
-
+console.log("Running on port " + default_port);
