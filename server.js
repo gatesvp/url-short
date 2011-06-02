@@ -56,7 +56,9 @@ db.open(function(err, conn) {
             var setData = { };
             var incData = { };
             var ts = new Date();
-            var date_string = ts.getFullYear().toString() + (ts.getMonth()+1).toString() + ts.getDate().toString();
+            var month_string = (ts.getMonth() >= 9) ? (ts.getMonth()+1).toString() : ('0' + (ts.getMonth()+1).toString());
+            var day_string = (ts.getDate().toString() > 9) ? ts.getDate().toString() : ('0' + ts.getDate().toString());
+            var date_string = ts.getFullYear().toString() + month_string + day_string;
             var query_id = data._id + '_' + date_string;
             var ip_time = 'ip.'+ts.getTime().toString();
             setData[ip_time] = req.connection.remoteAddress;
