@@ -1,1 +1,70 @@
 h1 { color:green }
+
+#centering {
+  width: 600px;
+  margin: 0px auto;
+  padding: 15px;
+  border: 3px dashed #0f0;
+  background-color: #8f7;
+  text-align: center;
+}
+
+#urlin {
+  width: 510px;
+  height: 19px;
+  background-color: #deffc6;
+}
+
+.alert { 
+  border: 2px solid red; 
+  padding: 2px;
+  background: red;
+  color: #880000;
+}
+
+a.ovalbutton{
+  background: transparent url('/images/oval-green-left.gif') no-repeat top left;
+  display: block;
+  float: right;
+  font: normal 13px Tahoma; /* Change 13px as desired */
+  line-height: 16px; /* This value + 4px + 4px (top and bottom padding of SPAN) must equal height of button background (default is 24px) */
+  height: 24px; /* Height of button background height */
+  padding-left: 11px; /* Width of left menu image */
+  text-decoration: none;
+}
+
+a:link.ovalbutton, a:visited.ovalbutton, a:active.ovalbutton{
+  color: #494949; /*button text color*/
+}
+
+a.ovalbutton span{
+  background: transparent url('/images/oval-green-right.gif') no-repeat top right;
+  display: block;
+  padding: 4px 11px 4px 0; /*Set 11px below to match value of 'padding-left' value above*/
+}
+
+a.ovalbutton:hover{ /* Hover state CSS */
+  background-position: bottom left;
+}
+
+a.ovalbutton:hover span{ /* Hover state CSS */
+  background-position: bottom right;
+  color: black;
+}
+
+.textboxwrapper{
+  float:left;
+}
+
+.buttonwrapper{
+  float:left;
+  padding-left: 10px;
+}
+
+.clearfix{
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}

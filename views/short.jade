@@ -1,7 +1,14 @@
-h1 Enter a URL to shorten
+- if(typeof message !== 'undefined')
+  #alerts
+    span.alert=message
 
-form(method='post',action='/')
-  input(type='text',name='urlin')
-  input(type='submit',name='shorten',value='shorten!')
-
+form(name='short',method='post',action='/')
+  #centering
+    h1 Enter a URL to shorten
+    .textboxwrapper
+      input#urlin(type='text',name='urlin')
+    .buttonwrapper
+      a.ovalbutton(href="#",onclick='document.short.submit()')
+        span shorten!
+    .clearfix
 

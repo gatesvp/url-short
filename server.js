@@ -67,7 +67,6 @@ db.open(function(err, conn) {
               if(err) { throw err; }
               collection.update({'_id' : query_id}, {$set : setData, $inc : incData}, {upsert:true}, function(err, doc){
                 if(err) { throw err; }
-                res.write("Redirecting...");
                 res.redirect(data.url);
               });
             });
@@ -86,13 +85,13 @@ db.open(function(err, conn) {
     urlin = req.body.urlin;
     urlin = urlin.replace(/^\s\s*/, '').replace(/\s\s*$/, '')
     if(urlin.substring(0,4) != 'http'){
-      urlin += 'http://';
+      urlin = 'http://' + urlin;
     }
 
     // validate it's an actual url
     var url_valid = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
   	if (!url_valid.test(urlin)){
-      res.render('short', {message: "invalid url"});
+      res.render('short', {message: "Invalid URL: "+urlin});
     }
     else{
       conn.collection('shortened', function(err, collection){
