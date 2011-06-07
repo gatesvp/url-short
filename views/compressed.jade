@@ -1,7 +1,14 @@
-h1 URL Shortened
+#centering
 
-- if(typeof inurl !== 'undefined')
-  #in_short= inurl
+  h1 URL shortened!
 
-- if(typeof outurl !== 'undefined')
-  #out_short= outurl
+  - if(typeof inurl !== 'undefined')
+    .in_text Input URL:&nbsp;
+    input#in_short(type='text',name='urlin',value=inurl)
+
+  - if(typeof outurl !== 'undefined')
+    br
+    .in_text Short URL:&nbsp;
+    input#out_short(type='text',name='urlin',value=outurl)
+
+  .clearfix

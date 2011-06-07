@@ -109,5 +109,3 @@ db.open(function(err, conn) {
 
   app.listen(default_port); 
 });
-
-console.log("Running on port " + default_port);

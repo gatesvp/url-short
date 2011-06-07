@@ -9,7 +9,7 @@ h1 { color:green }
   text-align: center;
 }
 
-#urlin {
+#urlin, #in_short, #out_short {
   width: 510px;
   height: 19px;
   background-color: #deffc6;
@@ -67,4 +67,8 @@ a.ovalbutton:hover span{ /* Hover state CSS */
   height: 0;
   clear: both;
   visibility: hidden;
+}
+
+.in_text{
+  text-align: left;
 }
