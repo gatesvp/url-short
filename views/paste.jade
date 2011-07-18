@@ -1,8 +1,11 @@
-h1 Enter text to share
-
-form(method='post',action='/')
-  input(type='textarea',name='paste_text')
-  br
-  input(type='submit',name='save',value='save')
-
+form(name='paste',method='post',action='/')
+  #centering
+    h1 Enter text to share
+    .textboxwrapper
+      input#paste_text(type='textarea',name='paste_text')
+    br
+    .buttonwrapper
+      a.ovalbutton(href="#",onclick='document.short.submit()')
+        span share!
+    .clearfix
 

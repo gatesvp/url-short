@@ -1,10 +1,15 @@
-module.exports.hash_gen = function(conn){
+require.paths.unshift('./node_modules');
+var mongodb = require('mongodb');
+
+module.exports.hash_gen = function(mongourl){
   var _current_increment = '';
   var _hash_array = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 
-  conn.collection('shortened', function(err, collection){
-    collection.find({}, {limit:1, sort:[ ['ts','desc'] ] }).toArray( function(err, docs) {
-      _current_increment = (docs.length > 0 ? docs[0]._id : 'a');
+  mongodb.connect(mongourl, function(err, conn) { 
+    conn.collection('shortened', function(err, collection){
+      collection.find({}, {limit:1, sort:[ ['ts','desc'] ] }).toArray( function(err, docs) {
+        _current_increment = (docs.length > 0 ? docs[0]._id : 'a');
+      });
     });
   });
 
