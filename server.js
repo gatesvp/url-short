@@ -26,24 +26,26 @@ app.use(app.router);
 app.use(express.static(pub));
 app.use('/', express.errorHandler({ dump: true, stack: true }));
 
-app.get('/paste/', function(req, res, next) {
-  res.render('paste', {});
-});
-
-app.get('/paste', function(req, res, next) {
-  res.render('paste', {});
-});
-
-app.get('/', function (req, res, next) {
-  res.render('short', {} );
-});
-
 app.get('/:stub', function(req, res, next) { 
   require('./forwarding').process_url_forward(req, res, next, mongodb, mongourl); 
 });
 
+app.get('/', function(req, res, next){
+  if(req.query['url']){
+    var urlin = require('./shorten').fix_url(req.query['url']);
+    require('./shorten').shorten_url(req, res, next, mongodb, mongourl, gen, urlin);
+  }
+  else{
+    res.render('short');
+  }
+});
+
 app.post('/', function (req, res, next) {
-  require('./shorten').shorten_url(req, res, next, mongodb, mongourl);
+
+  /* Trim URL, prepend HTTP if necessary */
+  var urlin = require('./shorten').fix_url(req.body.urlin);
+  require('./shorten').shorten_url(req, res, next, mongodb, mongourl, gen, urlin);
+
 });
 
 app.listen(default_port); 
