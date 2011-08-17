@@ -33,7 +33,12 @@ app.get('/:stub', function(req, res, next) {
 app.get('/', function(req, res, next){
   if(req.query['url']){
     var urlin = require('./shorten').fix_url(req.query['url']);
-    require('./shorten').shorten_url(req, res, next, mongodb, mongourl, gen, urlin);
+    if(req.query['type'] === 'json'){
+      require('./shorten').shorten_url(req, res, next, mongodb, mongourl, gen, urlin, true);
+    }
+    else{
+      require('./shorten').shorten_url(req, res, next, mongodb, mongourl, gen, urlin, false);
+    }
   }
   else{
     res.render('short');
@@ -44,7 +49,7 @@ app.post('/', function (req, res, next) {
 
   /* Trim URL, prepend HTTP if necessary */
   var urlin = require('./shorten').fix_url(req.body.urlin);
-  require('./shorten').shorten_url(req, res, next, mongodb, mongourl, gen, urlin);
+  require('./shorten').shorten_url(req, res, next, mongodb, mongourl, gen, urlin, false);
 
 });
 
