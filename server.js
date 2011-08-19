@@ -1,8 +1,6 @@
 var default_port = process.env.PORT || 8080;
 var pub = __dirname + '/public';
 
-require.paths.unshift('./node_modules');
-
 /* Configure plug-ins */
 var sys = require('sys');
 var express = require('express');
@@ -32,12 +30,13 @@ app.get('/:stub', function(req, res, next) {
 
 app.get('/', function(req, res, next){
   if(req.query['url']){
-    var urlin = require('./shorten').fix_url(req.query['url']);
+    var shorten = require('./shorten');
+    var urlin = shorten.fix_url(req.query['url']);
     if(req.query['type'] === 'json'){
-      require('./shorten').shorten_url(req, res, next, mongodb, mongourl, gen, urlin, true);
+      shorten.shorten_url(req, res, next, mongodb, mongourl, gen, urlin, true);
     }
     else{
-      require('./shorten').shorten_url(req, res, next, mongodb, mongourl, gen, urlin, false);
+      shorten.shorten_url(req, res, next, mongodb, mongourl, gen, urlin, false);
     }
   }
   else{

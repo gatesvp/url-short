@@ -24,6 +24,9 @@ shorten = function(req, res, next, conn, urlin, gen, json){
         else {
           res.render('compressed', { 'inurl' : urlin, 'outurl' : outurl });
         }
+
+        conn.close();
+        res.end();
       }
       else{
         console.log('collection is null');
