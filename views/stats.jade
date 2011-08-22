@@ -1,6 +1,36 @@
-h1 Stats
+link(rel='stylesheet', href='/script/jquery.jqplot.min.css')
+script(type='text/javascript', src='/script/jquery.min.js')
+script(type='text/javascript', src='/script/jquery.jqplot.min.js')
+script(type='text/javascript', src='/script/jqplot/jqplot.dateAxisRenderer.min.js')
+script(type='text/javascript', src='/script/jqplot/jqplot.canvasTextRenderer.min.js')
+script(type='text/javascript', src='/script/jqplot/jqplot.canvasAxisLabelRenderer.min.js')
+script(type='text/javascript', src='/script/jqplot/jqplot.canvasAxisTickRenderer.min.js')
+script(type='text/javascript', src='/script/jqplot/jqplot.categoryAxisRenderer.min.js')
 
-- if(docs.length)
-  ul
-  - each doc in docs
-    li= doc.ip
+h1 Stats for #{short}
+  
+div Outurl: #{outurl}
+
+div#chart1(style='height:400px;width:600px')
+
+script
+  $(document).ready(function(){
+    var data = [['2011-01-01', 7], ['2011-01-02', 9], ['2011-01-03', 15], 
+      ['2011-01-04', 12], ['2011-01-05', 3], ['2011-01-06', 6], ['2011-01-07', 18]];   
+
+    var plot1 = $.jqplot('chart1', [data], {
+      title: 'Concern vs. Occurrance',
+      series:[{renderer:$.jqplot.BarRenderer}],
+      axesDefaults: {
+          tickRenderer: $.jqplot.CanvasAxisTickRenderer
+      },
+      axes: {
+        xaxis: {
+          renderer: $.jqplot.CategoryAxisRenderer,
+          tickOptions: { angle: -30 }
+        }
+      }
+    });
+  });
+
+
