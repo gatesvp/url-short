@@ -18,6 +18,7 @@ module.exports.process_url_forward = function (req, res, next, mongodb1, mongour
             var ref = req.headers.referrer;
             var ip = req.connection.remoteAddress;
 
+            incData['total'] = 1;
             incData['hours.'+(ts.getHours().toString())] = 1;
             incData['minutes.'+(ts.getHours()*60+ts.getMinutes())] = 1;
             addToSet['refs'] = ref;

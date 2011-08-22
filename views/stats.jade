@@ -13,14 +13,15 @@ div Outurl: #{outurl}
 
 div#chart1(style='height:400px;width:600px')
 
+input(type='hidden',id='chart_data',value='#{hourly_stats}')
+
 script
   $(document).ready(function(){
-    var data = [['2011-01-01', 7], ['2011-01-02', 9], ['2011-01-03', 15], 
-      ['2011-01-04', 12], ['2011-01-05', 3], ['2011-01-06', 6], ['2011-01-07', 18]];   
+    //var data = [['2011-01-01', 7], ['2011-01-02', 9], ['2011-01-03', 15], ['2011-01-04', 12], ['2011-01-05', 3], ['2011-01-06', 6], ['2011-01-07', 18]];   
+    var data = JSON.parse($('#chart_data').val());
 
     var plot1 = $.jqplot('chart1', [data], {
-      title: 'Concern vs. Occurrance',
-      series:[{renderer:$.jqplot.BarRenderer}],
+      title: 'Impressions over time',
       axesDefaults: {
           tickRenderer: $.jqplot.CanvasAxisTickRenderer
       },

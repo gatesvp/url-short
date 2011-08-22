@@ -27,14 +27,7 @@ app.use('/', express.errorHandler({ dump: true, stack: true }));
 
 app.get('/history/:stub', function(req, res, next) {
   if(req.params.stub){
-    mongodb.connect(mongourl, function(err, conn) { 
-      conn.collection('shortened', function(err, collection) { 
-        collection.findOne({_id: req.params.stub}, function(err, data) {
-          res.render('stats', { short: data._id, outurl: data.url });
-          conn.close();
-        });
-      });
-    });
+    require('./stats').get_item_history(req, res, next, mongourl);
   }
 });
 
